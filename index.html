@@ -7,6 +7,7 @@
    Roadster: Thrust Lab
   </title>
   <link href="styles.css" rel="stylesheet"/>
+ 
  </head>
  <body>
   <div id="c">
@@ -56,7 +57,7 @@
   <div class="hud" id="toast">
   </div>
   <nav aria-label="Follow the creator" id="social-links">
-   <a aria-label="Follow Muhammad Bilal Khan on Instagram" href="https://www.instagram.com/mbilalkhan__/" rel="noopener noreferrer" target="_blank" title="Instagram">
+   <a aria-label="Follow Muhammad Bilal Khan on Instagram" data-analytics-event="follow_instagram_click" data-social-platform="instagram" href="https://www.instagram.com/mbilalkhan__/" rel="noopener noreferrer" target="_blank" title="Instagram">
     <svg aria-hidden="true" viewbox="0 0 24 24">
      <rect fill="none" height="17.6" rx="5" stroke="currentColor" stroke-width="1.8" width="17.6" x="3.2" y="3.2">
      </rect>
@@ -66,7 +67,7 @@
      </circle>
     </svg>
    </a>
-   <a aria-label="Follow Muhammad Bilal Khan on X" href="https://x.com/Bk23544" rel="noopener noreferrer" target="_blank" title="X">
+   <a aria-label="Follow Muhammad Bilal Khan on X" data-analytics-event="follow_x_click" data-social-platform="x" href="https://x.com/Bk23544" rel="noopener noreferrer" target="_blank" title="X">
     <svg aria-hidden="true" viewbox="0 0 24 24">
      <path d="M18.9 2H22l-6.78 7.75L23.2 22h-6.25l-4.9-7.4L5.57 22H2.43l7.25-8.28L1.8 2h6.4l4.43 6.76L18.9 2Zm-1.1 17.9h1.73L7.27 3.98H5.41L17.8 19.9Z" fill="currentColor">
      </path>
@@ -271,9 +272,11 @@
       side thrusters (MANUAL)
      </span>
      <span>
-      Drag to orbit
+      Drag to orbit; release to return after 3.5 seconds.
      </span>
-    
+     <b>Audio</b>
+     <span>Engine, thruster, tire-slip and landing effects are generated in the browser with Web Audio.</span>
+     <b>
       Game
      </b>
      <span>
@@ -412,6 +415,8 @@
     </small>
    </div>
   </div>
+
+
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js">
   </script>
   <script src="script.js">
