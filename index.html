@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+  <title>
+   Roadster: Thrust Lab
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div id="c">
+  </div>
+  <div id="vig">
+  </div>
+  <div aria-label="Driving status" class="hud" id="tel">
+   <div class="speed-line">
+    <span id="spd">
+     0
+    </span>
+    <small>
+     km/h
+    </small>
+   </div>
+   <div class="lbl">
+    Gas reserve
+    <span id="fuel-percent">
+     100%
+    </span>
+   </div>
+   <div class="bar">
+    <i id="fuel">
+    </i>
+   </div>
+   <div class="hud-actions">
+    <span class="m" id="mode-status">
+     AUTO
+    </span>
+    <button aria-label="Mute game sounds" aria-pressed="true" id="sound-toggle" title="Toggle game sounds" type="button">
+     ♫
+    </button>
+    <button aria-controls="details-panel" aria-expanded="false" id="details-toggle" title="Show controls" type="button">
+     ⓘ Controls
+    </button>
+   </div>
+   <div aria-label="Vehicle telemetry" id="desktop-telemetry">
+    <div class="desktop-telemetry-title">
+     VEHICLE TELEMETRY
+    </div>
+    <div id="desktop-telemetry-content">
+    </div>
+   </div>
+  </div>
+  <div id="sc">
+  </div>
+  <div class="hud" id="toast">
+  </div>
+  <nav aria-label="Follow the creator" id="social-links">
+   <a aria-label="Follow Muhammad Bilal Khan on Instagram" href="https://www.instagram.com/mbilalkhan__/" rel="noopener noreferrer" target="_blank" title="Instagram">
+    <svg aria-hidden="true" viewbox="0 0 24 24">
+     <rect fill="none" height="17.6" rx="5" stroke="currentColor" stroke-width="1.8" width="17.6" x="3.2" y="3.2">
+     </rect>
+     <circle cx="12" cy="12" fill="none" r="4.1" stroke="currentColor" stroke-width="1.8">
+     </circle>
+     <circle cx="17.7" cy="6.5" fill="currentColor" r="1.15">
+     </circle>
+    </svg>
+   </a>
+   <a aria-label="Follow Muhammad Bilal Khan on X" href="https://x.com/Bk23544" rel="noopener noreferrer" target="_blank" title="X">
+    <svg aria-hidden="true" viewbox="0 0 24 24">
+     <path d="M18.9 2H22l-6.78 7.75L23.2 22h-6.25l-4.9-7.4L5.57 22H2.43l7.25-8.28L1.8 2h6.4l4.43 6.76L18.9 2Zm-1.1 17.9h1.73L7.27 3.98H5.41L17.8 19.9Z" fill="currentColor">
+     </path>
+    </svg>
+   </a>
+  </nav>
+  <div id="creator-credit">
+   Created by
+   <a href="https://x.com/Bk23544" rel="noopener noreferrer" target="_blank">
+    <strong>
+     Muhammad Bilal Khan
+    </strong>
+   </a>
+  </div>
+  <select aria-label="Choose scenario" id="mobile-scenario-select">
+  </select>
+  <div aria-label="Touch driving controls" id="mobile-controls">
+   <div class="joystick-column">
+    <div class="control-caption">
+     DRIVE / AIR
+    </div>
+    <div aria-label="Virtual joystick. Move up and down to accelerate or pitch, left and right to steer or roll." id="mobile-joystick" role="application" tabindex="0">
+     <div class="joystick-ring">
+      <div class="joystick-crosshair">
+      </div>
+      <div id="joystick-knob">
+      </div>
+     </div>
+    </div>
+    <div class="joystick-hint">
+     STEER &middot; PITCH &middot; ROLL
+    </div>
+   </div>
+   <div class="action-column">
+    <div class="control-caption">
+     THRUST
+    </div>
+    <div class="action-row">
+     <button aria-label="Hold rear rocket thruster" class="touch-action primary" data-hold-key="Space" type="button">
+      ROCKET
+     </button>
+     <button aria-label="Hold bottom thrusters" class="touch-action" data-hold-key="F" type="button">
+      LIFT
+     </button>
+    </div>
+    <div class="action-row">
+     <button aria-label="Yaw left" class="touch-action" data-hold-key="Q" type="button">
+      YAW ◀
+     </button>
+     <button aria-label="Yaw right" class="touch-action" data-hold-key="E" type="button">
+      YAW ▶
+     </button>
+    </div>
+    <div class="action-row side-thruster-row">
+     <button aria-label="Hold left side thruster" class="touch-action" data-hold-key="Z" type="button">
+      SIDE ◀
+     </button>
+     <button aria-label="Hold right side thruster" class="touch-action" data-hold-key="C" type="button">
+      SIDE ▶
+     </button>
+    </div>
+    <div class="action-row utility-row">
+     <button aria-pressed="true" class="touch-action utility active" id="mobile-grip" type="button">
+      GRIP ON
+     </button>
+     <button class="touch-action utility" id="mobile-mode" type="button">
+      AUTO
+     </button>
+    </div>
+   </div>
+  </div>
+  <aside aria-label="Vehicle details and controls" hidden="" id="details-panel">
+   <div class="details-heading">
+    <div>
+     <strong>
+      Controls
+     </strong>
+     <span>
+      Keyboard shortcuts and vehicle status
+     </span>
+    </div>
+    <button aria-label="Close details" id="details-close" type="button">
+     ✕
+    </button>
+   </div>
+   <div id="details-stats">
+   </div>
+   <div class="details-controls">
+    <div class="mobile-instructions">
+     <b>
+      Touch controls
+     </b>
+     <span>
+      Use the left joystick to accelerate/brake and steer; in the air it controls pitch and roll.
+     </span>
+     <span>
+      Pull the joystick back while steering to brake and drift; the rear wheels loosen naturally at speed.
+     </span>
+     <span>
+      Hold ROCKET for rear thrust and LIFT for bottom thrusters. Use YAW and SIDE for rotation and side thrust.
+     </span>
+     <span>
+      GRIP toggles wall grip; AUTO switches landing-assist modes. Tap and drag the scene to look around.
+     </span>
+    </div>
+    <div class="desktop-instructions">
+     <b>
+      Keyboard controls
+     </b>
+     <span>
+      <kbd>
+       W
+      </kbd>
+      <kbd>
+       S
+      </kbd>
+      throttle / brake
+     </span>
+     <span>
+      <kbd>
+       A
+      </kbd>
+      <kbd>
+       D
+      </kbd>
+      steer
+     </span>
+     <span>
+      <kbd>
+       S
+      </kbd>
+      +
+      <kbd>
+       A
+      </kbd>
+      /
+      <kbd>
+       D
+      </kbd>
+      brake while turning to drift
+     </span>
+     <span>
+      <kbd>
+       Space
+      </kbd>
+      rear thruster
+     </span>
+     <span>
+      <kbd>
+       Shift
+      </kbd>
+      hold wall grip &middot;
+      <kbd>
+       G
+      </kbd>
+      toggle/release
+     </span>
+     <b>
+      Airborne controls
+     </b>
+     <span>
+      <kbd>
+       W
+      </kbd>
+      <kbd>
+       S
+      </kbd>
+      pitch &middot;
+      <kbd>
+       A
+      </kbd>
+      <kbd>
+       D
+      </kbd>
+      roll
+     </span>
+     <span>
+      <kbd>
+       Q
+      </kbd>
+      <kbd>
+       E
+      </kbd>
+      yaw
+     </span>
+     <b>
+      Thrusters and camera
+     </b>
+     <span>
+      <kbd>
+       F
+      </kbd>
+      bottom thrusters (AUTO/MANUAL)
+     </span>
+     <span>
+      <kbd>
+       Z
+      </kbd>
+      <kbd>
+       C
+      </kbd>
+      side thrusters (MANUAL)
+     </span>
+     <span>
+      Drag to orbit
+     </span>
+    
+      Game
+     </b>
+     <span>
+      <kbd>
+       M
+      </kbd>
+      AUTO/MANUAL &middot;
+      <kbd>
+       1&ndash;5
+      </kbd>
+      scenarios
+     </span>
+     <span>
+      <kbd>
+       R
+      </kbd>
+      reset &middot;
+      <kbd>
+       H
+      </kbd>
+      hide controls &middot;
+      <kbd>
+       Esc
+      </kbd>
+      menu
+     </span>
+    </div>
+   </div>
+  </aside>
+  <div id="ov">
+   <div>
+    <h1>
+     ROADSTER: THRUST LAB
+    </h1>
+    <p>
+     One Roadster, a rocket-assisted stunt facility, and physics you control. Build speed, hit the back-throwing wall curve, use wall grip inside the tunnel, and try to land it cleanly.
+    </p>
+    <p class="mobile-intro-controls">
+     Use the left joystick to drive and steer. Pull back while turning to brake and drift; hold ROCKET or LIFT to thrust. Open Controls for the full guide.
+    </p>
+    <table>
+     <tr class="intro-keyboard-row">
+      <td>
+       W / S
+      </td>
+      <td>
+       Accelerate, brake, reverse (pitch in air)
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       A / D
+      </td>
+      <td>
+       Steer (roll in air)
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       S + A / D
+      </td>
+      <td>
+       Brake while steering to drift
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       Space
+      </td>
+      <td>
+       Rear thruster, uses fuel reserve
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       F &middot; Z / C
+      </td>
+      <td>
+       Bottom thrusters &middot; left / right side thrusters
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       Shift
+      </td>
+      <td>
+       Hold to engage wall grip
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       G
+      </td>
+      <td>
+       Toggle grip system on/off, including automatic grip
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       M
+      </td>
+      <td>
+       AUTO landing assist / MANUAL direct thruster control
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       W S &middot; A D &middot; Q E
+      </td>
+      <td>
+       Pitch, roll, yaw in the air. Works in AUTO too: the autopilot levels the car before landing
+      </td>
+     </tr>
+     <tr class="intro-keyboard-row">
+      <td>
+       1 &ndash; 5 &middot; R
+      </td>
+      <td>
+       Choose scenario &middot; reset
+      </td>
+     </tr>
+    </table>
+    <button id="go">
+     Drive
+    </button>
+    <div id="lk">
+    </div>
+    <small class="intro-credit">
+     Created by
+     <a href="https://x.com/Bk23544" rel="noopener noreferrer" target="_blank">
+      Muhammad Bilal Khan
+     </a>
+    </small>
+    <small>
+     Unofficial fan project. Not affiliated with or endorsed by Tesla.
+    </small>
+   </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js">
+  </script>
+  <script src="script.js">
+  </script>
+ </body>
+</html>
+
