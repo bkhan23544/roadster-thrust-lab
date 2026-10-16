@@ -7,7 +7,13 @@
    Roadster: Thrust Lab
   </title>
   <link href="styles.css" rel="stylesheet"/>
- 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XV7H4SS69"></script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-2XV7H4SS69');
+  </script>
  </head>
  <body>
   <div id="c">
@@ -416,6 +422,28 @@
    </div>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('#social-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const url = link.href;
+                const platform = url.includes('instagram.com')
+                    ? 'instagram'
+                    : url.includes('x.com')
+                        ? 'x'
+                        : null;
+    
+                if (!platform || typeof gtag !== 'function') return;
+    
+                gtag('event', `follow_${platform}_click`, {
+                    social_platform: platform,
+                    link_url: url,
+                    link_text: link.getAttribute('aria-label') || platform
+                });
+            });
+        });
+    });
+    </script>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js">
   </script>
