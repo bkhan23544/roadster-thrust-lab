@@ -6,10 +6,27 @@
   <title>
    Roadster: Thrust Lab
   </title>
-  <link href="styles.css" rel="stylesheet"/>
- 
+  <link rel="stylesheet" href="styles.css"/>
+  <script type="importmap">
+   {
+    "imports": {
+     "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.webgpu.js",
+     "three/webgpu": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.webgpu.js",
+     "three/tsl": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.tsl.js",
+     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+    }
+   }
+  </script>
+  <script type="module" src="script.js"></script>
  </head>
  <body>
+  <div id="loader" role="status" aria-live="polite">
+   <div class="loader-inner">
+    <h2>ROADSTER: THRUST LAB</h2>
+    <div class="loader-track"><i id="loader-bar"></i></div>
+    <p><span id="loader-msg">Loading</span> <span id="loader-pct"></span></p>
+   </div>
+  </div>
   <div id="c">
   </div>
   <div id="vig">
@@ -52,12 +69,22 @@
     </div>
    </div>
   </div>
-  <div id="sc">
+  <div id="scorebox" class="hud">
+   <div class="sc-main"><span class="sc-label">SCORE</span><span id="score-val">0</span></div>
+   <div id="combo"><span id="combo-x">x1</span><div class="cb-track"><i id="combo-bar"></i></div></div>
+   <div class="sc-stats">
+    <span>CORES <b id="orb-val">0/0</b></span>
+    <span>GATES <b id="hoop-val">0/0</b></span>
+    <span>SMASHED <b id="smash-val">0</b></span>
+    <span>BEST <b id="best-val">0</b></span>
+   </div>
   </div>
+  <canvas id="minimap" width="220" height="220"></canvas>
+  <div id="pops" class="hud"></div>
   <div class="hud" id="toast">
   </div>
   <nav aria-label="Follow the creator" id="social-links">
-   <a aria-label="Follow Muhammad Bilal Khan on Instagram" data-analytics-event="follow_instagram_click" data-social-platform="instagram" href="https://www.instagram.com/mbilalkhan__/" rel="noopener noreferrer" target="_blank" title="Instagram">
+   <a aria-label="Follow Muhammad Bilal Khan on Instagram" href="https://www.instagram.com/mbilalkhan__/" rel="noopener noreferrer" target="_blank" title="Instagram">
     <svg aria-hidden="true" viewbox="0 0 24 24">
      <rect fill="none" height="17.6" rx="5" stroke="currentColor" stroke-width="1.8" width="17.6" x="3.2" y="3.2">
      </rect>
@@ -67,12 +94,26 @@
      </circle>
     </svg>
    </a>
-   <a aria-label="Follow Muhammad Bilal Khan on X" data-analytics-event="follow_x_click" data-social-platform="x" href="https://x.com/Bk23544" rel="noopener noreferrer" target="_blank" title="X">
+   <a aria-label="Follow Muhammad Bilal Khan on X" href="https://x.com/Bk23544" rel="noopener noreferrer" target="_blank" title="X">
     <svg aria-hidden="true" viewbox="0 0 24 24">
      <path d="M18.9 2H22l-6.78 7.75L23.2 22h-6.25l-4.9-7.4L5.57 22H2.43l7.25-8.28L1.8 2h6.4l4.43 6.76L18.9 2Zm-1.1 17.9h1.73L7.27 3.98H5.41L17.8 19.9Z" fill="currentColor">
      </path>
     </svg>
    </a>
+   <a
+    aria-label="View Roadster: Thrust Lab on GitHub"
+    href="https://github.com/bkhan23544/roadster-thrust-lab"
+    rel="noopener noreferrer"
+    target="_blank"
+    title="GitHub Repository"
+>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+            fill="currentColor"
+            d="M12 .297a12 12 0 0 0-3.793 23.387c.6.111.82-.261.82-.577v-2.234c-3.338.726-4.043-1.416-4.043-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.304-5.467-1.333-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.301 1.23a11.5 11.5 0 0 1 6.004 0c2.291-1.553 3.297-1.23 3.297-1.23.655 1.652.243 2.873.12 3.176.77.84 1.234 1.91 1.234 3.221 0 4.61-2.807 5.623-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.216.694.825.576A12.001 12.001 0 0 0 12 .297z"
+        />
+    </svg>
+</a>
   </nav>
   <div id="creator-credit">
    Created by
@@ -82,8 +123,6 @@
     </strong>
    </a>
   </div>
-  <select aria-label="Choose scenario" id="mobile-scenario-select">
-  </select>
   <div aria-label="Touch driving controls" id="mobile-controls">
    <div class="joystick-column">
     <div class="control-caption">
@@ -119,14 +158,6 @@
      </button>
      <button aria-label="Yaw right" class="touch-action" data-hold-key="E" type="button">
       YAW ▶
-     </button>
-    </div>
-    <div class="action-row side-thruster-row">
-     <button aria-label="Hold left side thruster" class="touch-action" data-hold-key="Z" type="button">
-      SIDE ◀
-     </button>
-     <button aria-label="Hold right side thruster" class="touch-action" data-hold-key="C" type="button">
-      SIDE ▶
      </button>
     </div>
     <div class="action-row utility-row">
@@ -167,7 +198,7 @@
       Pull the joystick back while steering to brake and drift; the rear wheels loosen naturally at speed.
      </span>
      <span>
-      Hold ROCKET for rear thrust and LIFT for bottom thrusters. Use YAW and SIDE for rotation and side thrust.
+      Hold ROCKET for rear thrust and LIFT for bottom thrusters. Use YAW for rotation.
      </span>
      <span>
       GRIP toggles wall grip; AUTO switches landing-assist modes. Tap and drag the scene to look around.
@@ -285,15 +316,15 @@
       </kbd>
       AUTO/MANUAL &middot;
       <kbd>
-       1&ndash;5
+       T
       </kbd>
-      scenarios
+      back to start
      </span>
      <span>
       <kbd>
        R
       </kbd>
-      reset &middot;
+      respawn at checkpoint &middot;
       <kbd>
        H
       </kbd>
@@ -312,7 +343,7 @@
      ROADSTER: THRUST LAB
     </h1>
     <p>
-     One Roadster, a rocket-assisted stunt facility, and physics you control. Build speed, hit the back-throwing wall curve, use wall grip inside the tunnel, and try to land it cleanly.
+     An unofficial cold-gas thruster test facility at night. One rocket-assisted Roadster, a tall curved rig, a clearance range, gravity well and collision lab. Run the experiments, thread the test gates, recover the data cores and break the crash blocks. Chain flips, spins and adhesion runs for combo multipliers. Pass the light gates to set checkpoints.
     </p>
     <p class="mobile-intro-controls">
      Use the left joystick to drive and steer. Pull back while turning to brake and drift; hold ROCKET or LIFT to thrust. Open Controls for the full guide.
@@ -392,10 +423,10 @@
      </tr>
      <tr class="intro-keyboard-row">
       <td>
-       1 &ndash; 5 &middot; R
+       R &middot; T
       </td>
       <td>
-       Choose scenario &middot; reset
+       Respawn at your last checkpoint &middot; back to the start
       </td>
      </tr>
     </table>
@@ -417,10 +448,6 @@
   </div>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js">
-  </script>
-  <script src="script.js">
-  </script>
+
  </body>
 </html>
-
