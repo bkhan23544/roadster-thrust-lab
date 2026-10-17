@@ -6,16 +6,28 @@
   <title>
    Roadster: Thrust Lab
   </title>
-  <link href="styles.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XV7H4SS69"></script>
-  <script>
-   window.dataLayer = window.dataLayer || [];
-   function gtag(){dataLayer.push(arguments);}
-   gtag('js', new Date());
-   gtag('config', 'G-2XV7H4SS69');
+  <script type="importmap">
+   {
+    "imports": {
+     "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.webgpu.js",
+     "three/webgpu": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.webgpu.js",
+     "three/tsl": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.tsl.js",
+     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+    }
+   }
   </script>
+  <script type="module" src="script.js"></script>
  </head>
  <body>
+  <div id="loader" role="status" aria-live="polite">
+   <div class="loader-inner">
+    <h2>ROADSTER: THRUST LAB</h2>
+    <div class="loader-track"><i id="loader-bar"></i></div>
+    <p><span id="loader-msg">Loading</span> <span id="loader-pct"></span></p>
+   </div>
+  </div>
   <div id="c">
   </div>
   <div id="vig">
@@ -58,8 +70,18 @@
     </div>
    </div>
   </div>
-  <div id="sc">
+  <div id="scorebox" class="hud">
+   <div class="sc-main"><span class="sc-label">SCORE</span><span id="score-val">0</span></div>
+   <div id="combo"><span id="combo-x">x1</span><div class="cb-track"><i id="combo-bar"></i></div></div>
+   <div class="sc-stats">
+    <span>CORES <b id="orb-val">0/0</b></span>
+    <span>GATES <b id="hoop-val">0/0</b></span>
+    <span>SMASHED <b id="smash-val">0</b></span>
+    <span>BEST <b id="best-val">0</b></span>
+   </div>
   </div>
+  <canvas id="minimap" width="220" height="220"></canvas>
+  <div id="pops" class="hud"></div>
   <div class="hud" id="toast">
   </div>
   <nav aria-label="Follow the creator" id="social-links">
@@ -104,8 +126,6 @@
     </strong>
    </a>
   </div>
-  <select aria-label="Choose scenario" id="mobile-scenario-select">
-  </select>
   <div aria-label="Touch driving controls" id="mobile-controls">
    <div class="joystick-column">
     <div class="control-caption">
@@ -141,14 +161,6 @@
      </button>
      <button aria-label="Yaw right" class="touch-action" data-hold-key="E" type="button">
       YAW ▶
-     </button>
-    </div>
-    <div class="action-row side-thruster-row">
-     <button aria-label="Hold left side thruster" class="touch-action" data-hold-key="Z" type="button">
-      SIDE ◀
-     </button>
-     <button aria-label="Hold right side thruster" class="touch-action" data-hold-key="C" type="button">
-      SIDE ▶
      </button>
     </div>
     <div class="action-row utility-row">
@@ -189,7 +201,7 @@
       Pull the joystick back while steering to brake and drift; the rear wheels loosen naturally at speed.
      </span>
      <span>
-      Hold ROCKET for rear thrust and LIFT for bottom thrusters. Use YAW and SIDE for rotation and side thrust.
+      Hold ROCKET for rear thrust and LIFT for bottom thrusters. Use YAW for rotation.
      </span>
      <span>
       GRIP toggles wall grip; AUTO switches landing-assist modes. Tap and drag the scene to look around.
@@ -307,15 +319,15 @@
       </kbd>
       AUTO/MANUAL &middot;
       <kbd>
-       1&ndash;5
+       T
       </kbd>
-      scenarios
+      back to start
      </span>
      <span>
       <kbd>
        R
       </kbd>
-      reset &middot;
+      respawn at checkpoint &middot;
       <kbd>
        H
       </kbd>
@@ -334,7 +346,7 @@
      ROADSTER: THRUST LAB
     </h1>
     <p>
-     One Roadster, a rocket-assisted stunt facility, and physics you control. Build speed, hit the back-throwing wall curve, use wall grip inside the tunnel, and try to land it cleanly.
+     An unofficial cold-gas thruster test facility at night. One rocket-assisted Roadster, a tall curved rig, a clearance range, gravity well and collision lab. Run the experiments, thread the test gates, recover the data cores and break the crash blocks. Chain flips, spins and adhesion runs for combo multipliers. Pass the light gates to set checkpoints.
     </p>
     <p class="mobile-intro-controls">
      Use the left joystick to drive and steer. Pull back while turning to brake and drift; hold ROCKET or LIFT to thrust. Open Controls for the full guide.
@@ -414,10 +426,10 @@
      </tr>
      <tr class="intro-keyboard-row">
       <td>
-       1 &ndash; 5 &middot; R
+       R &middot; T
       </td>
       <td>
-       Choose scenario &middot; reset
+       Respawn at your last checkpoint &middot; back to the start
       </td>
      </tr>
     </table>
@@ -438,33 +450,7 @@
    </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('#social-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                const url = link.href;
-                const platform = url.includes('instagram.com')
-                    ? 'instagram'
-                    : url.includes('x.com')
-                        ? 'x'
-                        : null;
-    
-                if (!platform || typeof gtag !== 'function') return;
-    
-                gtag('event', `follow_${platform}_click`, {
-                    social_platform: platform,
-                    link_url: url,
-                    link_text: link.getAttribute('aria-label') || platform
-                });
-            });
-        });
-    });
-    </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js">
-  </script>
-  <script src="script.js">
-  </script>
+
  </body>
 </html>
-
