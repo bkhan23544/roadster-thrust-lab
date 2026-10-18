@@ -1285,6 +1285,8 @@ button.on {
  #minimap{left:auto;right:8px;top:calc(52px + env(safe-area-inset-top,0px));width:96px;height:96px}
  #pops{top:calc(96px + env(safe-area-inset-top,0px))}
  .pop{font-size:14px}.pop.big,.pop.trick{font-size:17px}.pop.zone{font-size:18px}
+ #toast{top:calc(225px + env(safe-area-inset-top,0px))}
+ #mode-status{display:none}
 }
 @media (max-width:760px){#tel{top:calc(8px + env(safe-area-inset-top,0px)) !important}}
 

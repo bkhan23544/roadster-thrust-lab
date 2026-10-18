@@ -2595,6 +2595,7 @@ document.querySelectorAll('[data-hold-key]').forEach(button => {
 });
 getElement('mobile-grip').addEventListener('click', toggleWallGrip);
 getElement('mobile-mode').addEventListener('click', () => setThrusterMode(1));
+getElement('mobile-reset').addEventListener('click', () => respawn());
 addEventListener('blur', () => {
     resetJoystick();
     document.querySelectorAll('[data-hold-key]').forEach(button => {
