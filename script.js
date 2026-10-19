@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
                 if (!platform || typeof gtag !== 'function') return;
     
-                gtag('event', `follow_${platform}_click`, {
+                gtag('event', link.dataset.analyticsEvent || `follow_${platform}_click`, {
                     social_platform: platform,
                     link_url: url,
                     link_text: link.getAttribute('aria-label') || platform
