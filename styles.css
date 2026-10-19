@@ -759,6 +759,12 @@ button.on {
     padding: 0;
 }
 
+#social-links .about-me{
+    width: fit-content;
+    padding: 10px;
+    font-size: 16px;
+}
+
 #social-links a svg {
     width: 19px;
     height: 19px;
@@ -839,6 +845,12 @@ button.on {
         height: 34px;
         padding: 0;
     }
+    #social-links .about-me{
+        width: fit-content;
+        padding: 10px;
+        font-size: 12px;
+    }
+
     #social-links a svg {
         width: 18px;
         height: 18px;
@@ -1278,7 +1290,7 @@ button.on {
 @keyframes popIn{0%{opacity:0;transform:translateY(14px) scale(.9)}10%{opacity:1;transform:translateY(0) scale(1.06)}18%{transform:scale(1)}78%{opacity:1}100%{opacity:0;transform:translateY(-26px)}}
 .m{cursor:pointer;pointer-events:auto}
 @media (max-width:760px),(pointer:coarse){
- #scorebox{top:calc(8px + env(safe-area-inset-top,0px));min-width:0;padding:5px 12px 6px;border-radius:12px}
+ #scorebox{top:calc(8px + env(safe-area-inset-top,0px));min-width:0;padding:5px 12px 6px;border-radius:12px;width: fit-content !important;}
  #score-val{font-size:21px}
  .sc-stats{gap:8px;font-size:8px}
  #combo{height:16px;margin:0 auto 2px}

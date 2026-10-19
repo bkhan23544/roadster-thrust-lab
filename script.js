@@ -18,11 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('#social-links a').forEach(link => {
             link.addEventListener('click', () => {
                 const url = link.href;
-                const platform = url.includes('instagram.com')
-                    ? 'instagram'
-                    : url.includes('x.com')
-                        ? 'x'
-                        : null;
+                const platform = link.dataset.socialPlatform || null;
     
                 if (!platform || typeof gtag !== 'function') return;
     
